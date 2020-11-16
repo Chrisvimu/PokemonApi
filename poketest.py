@@ -100,7 +100,7 @@ def Pokeindex(index):
 def JoyTreatment(pokeList):
     for x in pokeList:
         Pokemon.currenthp = Pokemon
-    print("los participantes han sido tratados por Joy, y se encuentran listos para luchar" + "\n")
+    print("\n" + "los participantes han sido tratados por Joy, y se encuentran listos para luchar" + "\n")
 
 #Pokemon Initiative
 def Initiative(pokemonA:Pokemon, pokemonB:Pokemon):
@@ -120,28 +120,24 @@ def HitStat(pkmn1:Pokemon, pkmn2:Pokemon):
     else:
         dmg = TypeEffectivness(pkmn1.types, pkmn2.types, pkmn1.attack)
         hit = (pkmn2.defense - dmg)
-    return hit
+    #check if the attack will be a positive number
+    if hit > 1:
+        return hit
+    else:
+        return 1
 
 
 #damage calcs
 def Damage(pkmn1:Pokemon, pkmn2:Pokemon):
     
     hit = HitStat(pkmn1,pkmn2)
+    pkmn2.currenthp -= hit
+    print(pkmn1.name+" golpea a "+pkmn2.name+" por "+str(hit)+" de dano")
 
-    if hit >=1:
-        pkmn2.currenthp -= hit
-        print(pkmn1.name+" golpea a "+pkmn2.name+" por "+str(hit)+" de dano")
-        if pkmn2.currenthp <= 0:
-            pkmn2.fainted = True
-            print("==================================|| "+ pkmn2.name + " *c muere* ||=======================================")
-        return hit
-    else:
-        pkmn2.currenthp -= 1
-        print(pkmn1.name+" golpea a "+pkmn2.name+" por 1 de dano")
-        if pkmn2.currenthp <= 0:
-            pkmn2.fainted = True
-            print("==================================|| "+ pkmn2.name + " *c muere* ||=======================================")
-        return 1
+    if pkmn2.currenthp <= 0:
+        pkmn2.fainted = True
+        print("==================================|| "+ pkmn2.name + " *c muere* ||=======================================")
+    return hit
  
 #Pokemon combat
 def PokeCombat(pkmnA:Pokemon, pkmnB:Pokemon, Initiative):
@@ -149,7 +145,7 @@ def PokeCombat(pkmnA:Pokemon, pkmnB:Pokemon, Initiative):
     y = 0
     while pkmnA.fainted == False and pkmnB.fainted == False:
         print("=====================================|| Round : " +str(y)+" ||==========================================")
-        time.sleep(1)
+        time.sleep(0.4)
         if pkmnA.name == x:
             hit = Damage(pkmnA, pkmnB)
             x = pkmnB.name
