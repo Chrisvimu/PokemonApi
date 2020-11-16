@@ -19,7 +19,19 @@ class Pokemon:
         self.currenthp = hp
     def __repr__(self):
         return f"{self.pokedex}' '{self.name}' '{self.types}' '{self.hp}' '{self.attack}' '{self.defense}' '{self.Sattack}' '{self.Sdefense}' '{self.speed}' '{self.fainted}' '{self.currenthp}"
-        
+
+#Check type effectiveness
+#Not Finished
+def TypeEffectivness(attacktype, defensetype):
+    typecheck = {
+                'bug': {'dark': 2.0, 'fairy': 0.5, 'fighting': 0.5, 'fire': 0.5, 'flying': 0.5, 'ghost': 0.5, 'grass': 2.0, 'poison': 0.5, 'psychic': 2.0, 'steel': 0.5},
+                'fire': {'fire': 0.5, 'grass': 2.0, 'water': 0.5},
+                'fire': {'fire': 0.5, 'grass': 2.0, 'water': 0.5},
+                'fire': {'fire': 0.5, 'grass': 2.0, 'water': 0.5},
+                'fire': {'fire': 0.5, 'grass': 2.0, 'water': 0.5},
+                'fire': {'fire': 0.5, 'grass': 2.0, 'water': 0.5}, 
+                'grass': {'fire': 0.5, 'grass': 0.5, 'water': 2.0}, 
+                'water': {'fire': 2.0, 'grass': 0.5, 'water': 0.5}}
 
 #Selecting contestants at random for tournament
 def Contestants():
@@ -48,7 +60,7 @@ def getpokemon(pokenumber):
         print(pkmn)
         return pkmn
 
-#Giving each pokemon his pokedex index
+#Filling pokemon list with the contestants
 def Pokeindex(index):
     pokeList = []
     for x in index:
@@ -57,7 +69,8 @@ def Pokeindex(index):
     return pokeList
 
 #Determine which pokemon has advantage by type
-#def typevstype(type1, type2):
+#using TypeEffectivness(type1, type2):
+
 #Pokemon Initiative
 def Initiative(pokemonA:Pokemon, pokemonB:Pokemon):
     speedA = pokemonA.speed
@@ -66,14 +79,26 @@ def Initiative(pokemonA:Pokemon, pokemonB:Pokemon):
         return pokemonA.name
     else:
         return pokemonB.name
+#TO DO
+#implementar multiplicador para 
+
+#Check what stats will be used
+def HitStat(pkmn1:Pokemon, pkmn2:Pokemon):
+    if pkmn1.Sattack > pkmn1.attack:
+        hit = (pkmn2.Sdefense - pkmn1.Sattack)
+    else:
+        hit = (pkmn2.defense - pkmn1.attack)
+    return hit
 
 #fainted managment
 #def Fainted(hp)
 #Revisar como hacer esta funcion, para evitar repetir cosas uwu
 
 #damage calcs
-def Damage(pkmn1, pkmn2):
-    hit = (pkmn2.defense - pkmn1.attack)
+def Damage(pkmn1:Pokemon, pkmn2:Pokemon):
+    
+    hit = HitStat(pkmn1,pkmn2)
+
     if hit >=1:
         pkmn2.currenthp -= hit
         print(pkmn1.name+" golpea a "+pkmn2.name+" por "+str(hit)+" de dano")
@@ -98,7 +123,6 @@ def PokeCombat(pkmnA:Pokemon, pkmnB:Pokemon, Initiative):
         if pkmnA.name == x:
             hit = Damage(pkmnA, pkmnB)
             x = pkmnB.name
-            y += 1
         if pkmnB.name == x:
             hit = Damage(pkmnB, pkmnA)
             x = pkmnA.name
@@ -126,5 +150,7 @@ if __name__ == '__main__':
     print("se han seleccionado los concursantes")
     Tournament(pokeList)
     pokeList = deletus(pokeList)
+    #No se como hacer este loop, se me rompe la vida uwu
+    print(pokeList)
 
 
