@@ -18,20 +18,31 @@ class Pokemon:
         self.fainted = False
         self.currenthp = hp
     def __repr__(self):
-        return f"{self.pokedex}' '{self.name}' '{self.types}' '{self.hp}' '{self.attack}' '{self.defense}' '{self.Sattack}' '{self.Sdefense}' '{self.speed}' '{self.fainted}' '{self.currenthp}"
+        return f"{self.pokedex}' '{self.name}' '{self.types}' '{self.hp}' '{self.attack}' '{self.defense}' '{self.Sattack}' '{self.Sdefense}' '{self.speed}' '{self.fainted}' '{self.currenthp}"+ '\n'
 
 #Check type effectiveness
 #Not Finished
 def TypeEffectivness(attacktype, defensetype):
     typecheck = {
                 'bug': {'dark': 2.0, 'fairy': 0.5, 'fighting': 0.5, 'fire': 0.5, 'flying': 0.5, 'ghost': 0.5, 'grass': 2.0, 'poison': 0.5, 'psychic': 2.0, 'steel': 0.5},
-                'fire': {'fire': 0.5, 'grass': 2.0, 'water': 0.5},
-                'fire': {'fire': 0.5, 'grass': 2.0, 'water': 0.5},
-                'fire': {'fire': 0.5, 'grass': 2.0, 'water': 0.5},
-                'fire': {'fire': 0.5, 'grass': 2.0, 'water': 0.5},
-                'fire': {'fire': 0.5, 'grass': 2.0, 'water': 0.5}, 
-                'grass': {'fire': 0.5, 'grass': 0.5, 'water': 2.0}, 
-                'water': {'fire': 2.0, 'grass': 0.5, 'water': 0.5}}
+                'dark': {'dark': 0.5, 'fairy': 0.5, 'fighting': 0.5, 'ghost': 2.0, 'psychic': 2.0},
+                'dragon': {'dragon': 2.0, 'fairy': 0.5, 'steel': 0.5},
+                'electric': {'dragon': 0.5, 'electric': 0.5, 'flying': 2.0, 'grass': 0.5, 'ground': 0.5, 'water': 2.0},
+                'fairy': {'dark': 2.0, 'dragon': 2.0, 'fighting': 2.0, 'fire': 0.5, 'poison': 0.5, 'steel': 0.5},
+                'fighting': {'bug': 0.5, 'dark': 2.0, 'fairy': 0.5, 'flying': 0.5, 'ghost': 0.5,'ice': 2.0, 'normal': 2.0, 'poison': 0.5, 'psychic': 0.5, 'rock': 2.0, 'steel': 2.0}, 
+                'fire': {'bug': 2.0, 'dragon': 0.5, 'fire': 0.5, 'grass': 2.0, 'ice': 0.5, 'rock': 0.5, 'steel': 2.0, 'water': 0.5}, 
+                'flying': {'bug': 2.0, 'electric': 0.5, 'fighting': 2.0, 'grass': 2.0, 'rock': 0.5, 'steel': 0.5},
+                'ghost': {'dark': 0.5, 'ghost': 2.0, 'normal': 0.5, 'psychic': 2.0},
+                'grass': {'bug': 0.5, 'dragon': 0.5, 'fire': 0.5, 'flying': 0.5, 'grass': 0.5, 'ground': 2.0, 'poison': 0.5, 'rock': 2.0, 'steel': 0.5, 'water': 2.0},
+                'ground': {'bug': 0.5, 'electric': 2.0, 'fire': 2.0, 'flying': 0.5, 'grass': 0.5, 'poison': 2.0, 'rock': 2.0, 'steel': 2.0},
+                'ice': {'dragon': 2.0, 'fire': 0.5, 'flying': 2.0, 'grass': 2.0, 'ground': 2.0, 'ice': 0.5, 'steel': 0.5, 'water': 0.5},
+                'normal': {'ghost': 0.5, 'rock': 0.5, 'steel': 0.5},
+                'poison': {'fairy': 2.0, 'ghost': 0.5, 'grass': 2.0, 'ground': 0.5, 'poison': 0.5, 'rock': 0.5, 'steel': 0.5},
+                'psychic': {'dark': 0.5, 'fighting': 2.0, 'normal': 2.0, 'poison': 2.0, 'psychic': 0.5, 'steel': 0.5},
+                'rock': {'bug': 2.0, 'fighting': 0.5, 'fire': 2.0, 'flying': 2.0, 'ground': 0.5, 'ice': 2.0, 'steel': 0.5},
+                'steel': {'electric': 0.5, 'fairy': 2.0, 'fire': 0.5, 'ice': 2.0, 'rock': 2.0, 'steel': 0.5, 'water': 0.5},
+                'water': {'electric': 0.5, 'fire': 2.0, 'grass': 0.5, 'ground': 2.0, 'rock': 2.0, 'water': 0.5}
+                }
 
 #Selecting contestants at random for tournament
 def Contestants():
@@ -79,8 +90,7 @@ def Initiative(pokemonA:Pokemon, pokemonB:Pokemon):
         return pokemonA.name
     else:
         return pokemonB.name
-#TO DO
-#implementar multiplicador para 
+
 
 #Check what stats will be used
 def HitStat(pkmn1:Pokemon, pkmn2:Pokemon):
@@ -148,9 +158,14 @@ def Tournament(pokeList):
 if __name__ == '__main__':
     pokeList = Pokeindex(Contestants())
     print("se han seleccionado los concursantes")
-    Tournament(pokeList)
-    pokeList = deletus(pokeList)
+    #loop esto hasta que:
+    while len(pokeList) != 1:
+        Tournament(pokeList)
+        pokeList = deletus(pokeList)
     #No se como hacer este loop, se me rompe la vida uwu
-    print(pokeList)
+        print("Los concursantes que siguen en el combate son:"+'\n')
+        print(pokeList)
+    print("||==WINNER====WINNER====WINNER====WINNER==||  "+pokeList[0].name+"  ||==WINNER====WINNER====WINNER====WINNER==||")
+
 
 
