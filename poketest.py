@@ -22,7 +22,7 @@ class Pokemon:
 
 #Check type effectiveness
 #Not Finished
-def TypeEffectivness(attacktype, defensetype):
+def TypeEffectivness(attacktype, defensetype, attack):
     typecheck = {
                 'bug': {'dark': 2.0, 'fairy': 0.5, 'fighting': 0.5, 'fire': 0.5, 'flying': 0.5, 'ghost': 0.5, 'grass': 2.0, 'poison': 0.5, 'psychic': 2.0, 'steel': 0.5},
                 'dark': {'dark': 0.5, 'fairy': 0.5, 'fighting': 0.5, 'ghost': 2.0, 'psychic': 2.0},
@@ -43,6 +43,18 @@ def TypeEffectivness(attacktype, defensetype):
                 'steel': {'electric': 0.5, 'fairy': 2.0, 'fire': 0.5, 'ice': 2.0, 'rock': 2.0, 'steel': 0.5, 'water': 0.5},
                 'water': {'electric': 0.5, 'fire': 2.0, 'grass': 0.5, 'ground': 2.0, 'rock': 2.0, 'water': 0.5}
                 }
+    #La idea de la siguiente linea es revisar si es que se encuentra esa combinacion de tipo de ataque y defensa...
+    if typecheck[attacktype][defensetype]:
+        check = typecheck[attacktype][defensetype]
+        #Y si se encuentra realizar un print por ahora
+        if check == 2.0:
+            print("It's super efective!")
+        else:
+            print("This will hit like a week noodle...")
+    else:
+        print("...uwu...")
+    
+
 
 #Selecting contestants at random for tournament
 def Contestants():
@@ -95,14 +107,13 @@ def Initiative(pokemonA:Pokemon, pokemonB:Pokemon):
 #Check what stats will be used
 def HitStat(pkmn1:Pokemon, pkmn2:Pokemon):
     if pkmn1.Sattack > pkmn1.attack:
+        TypeEffectivness(pkmn1.types, pkmn2.types, pkmn1.Sattack)
         hit = (pkmn2.Sdefense - pkmn1.Sattack)
     else:
+        TypeEffectivness(pkmn1.types, pkmn2.types, pkmn1.attack)
         hit = (pkmn2.defense - pkmn1.attack)
     return hit
 
-#fainted managment
-#def Fainted(hp)
-#Revisar como hacer esta funcion, para evitar repetir cosas uwu
 
 #damage calcs
 def Damage(pkmn1:Pokemon, pkmn2:Pokemon):
