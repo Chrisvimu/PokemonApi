@@ -1,5 +1,6 @@
 import requests
 import numpy
+import time
 
 #Class to store each pokemon for the tournament.
 class Pokemon:
@@ -43,16 +44,20 @@ def TypeEffectivness(attacktype, defensetype, attack):
                 'steel': {'electric': 0.5, 'fairy': 2.0, 'fire': 0.5, 'ice': 2.0, 'rock': 2.0, 'steel': 0.5, 'water': 0.5},
                 'water': {'electric': 0.5, 'fire': 2.0, 'grass': 0.5, 'ground': 2.0, 'rock': 2.0, 'water': 0.5}
                 }
-    #La idea de la siguiente linea es revisar si es que se encuentra esa combinacion de tipo de ataque y defensa...
-    if typecheck[attacktype][defensetype]:
+
+    hit = attack
+    if defensetype in typecheck[attacktype]:
+        #print("tipo de ataque: " +  attacktype  + '\n' + "tipo de defensa: " + defensetype)
         check = typecheck[attacktype][defensetype]
-        #Y si se encuentra realizar un print por ahora
         if check == 2.0:
             print("It's super efective!")
+            hit = (attack * 2)
         else:
             print("This will hit like a week noodle...")
+            hit = (attack/2)
     else:
-        print("...uwu...")
+        print("It's a normal hit")
+    return hit
     
 
 
@@ -91,8 +96,11 @@ def Pokeindex(index):
         pokeList.append(pkmn)
     return pokeList
 
-#Determine which pokemon has advantage by type
-#using TypeEffectivness(type1, type2):
+#Restore current hp to hp value
+def JoyTreatment(pokeList):
+    for x in pokeList:
+        Pokemon.currenthp = Pokemon
+    print("los participantes han sido tratados por Joy, y se encuentran listos para luchar" + "\n")
 
 #Pokemon Initiative
 def Initiative(pokemonA:Pokemon, pokemonB:Pokemon):
@@ -107,11 +115,11 @@ def Initiative(pokemonA:Pokemon, pokemonB:Pokemon):
 #Check what stats will be used
 def HitStat(pkmn1:Pokemon, pkmn2:Pokemon):
     if pkmn1.Sattack > pkmn1.attack:
-        TypeEffectivness(pkmn1.types, pkmn2.types, pkmn1.Sattack)
-        hit = (pkmn2.Sdefense - pkmn1.Sattack)
+        dmg = TypeEffectivness(pkmn1.types, pkmn2.types, pkmn1.Sattack)
+        hit = (pkmn2.Sdefense - dmg)
     else:
-        TypeEffectivness(pkmn1.types, pkmn2.types, pkmn1.attack)
-        hit = (pkmn2.defense - pkmn1.attack)
+        dmg = TypeEffectivness(pkmn1.types, pkmn2.types, pkmn1.attack)
+        hit = (pkmn2.defense - dmg)
     return hit
 
 
@@ -141,6 +149,7 @@ def PokeCombat(pkmnA:Pokemon, pkmnB:Pokemon, Initiative):
     y = 0
     while pkmnA.fainted == False and pkmnB.fainted == False:
         print("=====================================|| Round : " +str(y)+" ||==========================================")
+        time.sleep(1)
         if pkmnA.name == x:
             hit = Damage(pkmnA, pkmnB)
             x = pkmnB.name
@@ -169,14 +178,17 @@ def Tournament(pokeList):
 if __name__ == '__main__':
     pokeList = Pokeindex(Contestants())
     print("se han seleccionado los concursantes")
-    #loop esto hasta que:
     while len(pokeList) != 1:
         Tournament(pokeList)
         pokeList = deletus(pokeList)
-    #No se como hacer este loop, se me rompe la vida uwu
+        JoyTreatment(pokeList)
         print("Los concursantes que siguen en el combate son:"+'\n')
+        time.sleep(1)
         print(pokeList)
     print("||==WINNER====WINNER====WINNER====WINNER==||  "+pokeList[0].name+"  ||==WINNER====WINNER====WINNER====WINNER==||")
+
+
+
 
 
 
